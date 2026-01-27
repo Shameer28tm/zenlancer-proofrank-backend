@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from ai.proof_cleaner import clean_proof
 
 proof_bp = Blueprint("proof", __name__)
 
@@ -10,7 +11,10 @@ def upload_proof():
     if not proof_text:
         return jsonify({"error": "Proof text required"}), 400
 
+    ai_result = clean_proof(proof_text)
+
     return jsonify({
-        "message": "Proof received successfully",
-        "raw_proof": proof_text
+        "message": "Proof processed successfully",
+        "raw_proof": proof_text,
+        "ai_output": ai_result
     })
