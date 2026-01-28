@@ -1,11 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 from proof.routes import proof_bp
 
 app = Flask(__name__)
 CORS(app)
 
-app.register_blueprint(proof_bp)
+app.register_blueprint(proof_bp)   # <<< VERY IMPORTANT
+print(app.url_map)
+
 
 @app.route("/")
 def home():
