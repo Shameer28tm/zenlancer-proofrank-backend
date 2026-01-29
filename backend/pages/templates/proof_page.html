@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{ title }}</title>
+
+  <meta name="description" content="{{ meta_description }}"/>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Basic SEO -->
+  <h1 hidden>{{ title }}</h1>
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {{ schema }}
+  </script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .proof-box {
+      border-left: 4px solid #000;
+      padding: 12px;
+      margin: 20px 0;
+      background: #f7f7f7;
+    }
+    .metric {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+
+<h1>{{ title }}</h1>
+
+<p>{{ intro }}</p>
+
+<div class="proof-box">
+  <p><strong>Service:</strong> {{ service }}</p>
+  <p><strong>Industry:</strong> {{ industry }}</p>
+  <p><strong>Outcome:</strong> {{ outcome }}</p>
+  <p class="metric">📊 Result: {{ metric }}</p>
+</div>
+
+<h2>Verified Client Proof</h2>
+<p>{{ clean_proof }}</p>
+
+<h2>What this shows</h2>
+<p>{{ insight }}</p>
+
+<h2>Want similar results?</h2>
+<p>Contact to get similar outcomes.</p>
+
+</body>
+</html>

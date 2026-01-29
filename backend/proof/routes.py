@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from ai.proof_cleaner import clean_proof
+from pages.generator import generate_proof_page
 
 proof_bp = Blueprint("proof", __name__)
 
@@ -13,8 +14,10 @@ def upload_proof():
 
     ai_result = clean_proof(proof_text)
 
+    page_file = generate_proof_page(ai_result)
+
     return jsonify({
         "message": "Proof processed successfully",
-        "raw_proof": proof_text,
-        "ai_output": ai_result
+        "ai_output": ai_result,
+        "generated_page": page_file
     })

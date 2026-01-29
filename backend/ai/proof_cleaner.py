@@ -1,10 +1,8 @@
-import os
-from openai import OpenAI
-from dotenv import load_dotenv
+import requests
+import json
 
-load_dotenv()
-
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+OLLAMA_URL = "http://localhost:11434/api/generate"
+MODEL = "llama3"
 
 def clean_proof(raw_proof: str):
     prompt = f"""
@@ -14,11 +12,11 @@ From the proof below, extract:
 
 - service
 - industry (if mentioned or inferable)
-- result/outcome
+- outcome
 - metric (numbers, %, revenue, time, etc)
 - rewrite a clean professional proof statement
 
-Return strictly in JSON format:
+Return ONLY valid JSON in this format:
 
 {{
   "service": "",
@@ -32,10 +30,19 @@ Proof:
 {raw_proof}
 """
 
-    response = client.chat.completions.create(
-        model="gpt-4.1-mini",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.2
-    )
+    payload = {
+        "model": MODEL,
+        "prompt": prompt,
+        "stream": False
+    }
 
-    return response.choices[0].message.content
+    response = requests.post(OLLAMA_URL, json=payload, timeout=120)
+    result = response.json()
+
+    try:
+        return json.loads(result["response"])
+    except:
+        return {
+            "error": "AI response parse failed",
+            "raw": result.get("response")
+        }
